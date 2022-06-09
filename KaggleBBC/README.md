@@ -10,4 +10,4 @@ conda install seaborn -y
 conda install nltk -y
 conda install scikit-learn -y
 ```
-Download data from <href link="https://www.kaggle.com/competitions/learn-ai-bbc/data">kaggle</href> and save it in the /KaggleBBC/Data/
+Download data from <a href="https://www.kaggle.com/competitions/learn-ai-bbc/data">kaggle</a> and save it in the /KaggleBBC/Data/
