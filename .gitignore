@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # Data
-KaggleBBC/Data/*
-KaggleBBC/Notebooks/submission.csv
+KaggleBBC_RS/Data/*
+KaggleBBC_RS/Notebooks/submission.csv
