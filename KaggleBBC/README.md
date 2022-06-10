@@ -16,7 +16,7 @@ Download data from <a href="https://www.kaggle.com/competitions/learn-ai-bbc/dat
 
 ### Unsupervised Algorithms in Machine Learning
 
-This notebook is part of the week 4 project of the course Unsupervised Algorithms in Machine Learning from the University of Colorado Boulder and tackels the BBC news classification competition from <a href="https://www.kaggle.com/competitions/learn-ai-bbc/data">kaggle</a> using matrix factorization for multiple tasks. <br>
+This notebook is part of the week 4 project of the course Unsupervised Algorithms in Machine Learning from the University of Colorado Boulder and tackles the BBC news classification competition from <a href="https://www.kaggle.com/competitions/learn-ai-bbc/data">kaggle</a> using matrix factorization for multiple tasks. <br>
 The document is divided in the following sections:
 * Introduction
 * Exploratory Data Analysis and preprocessing
@@ -54,7 +54,7 @@ import time
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Data import
@@ -66,29 +66,29 @@ test_loc = "/kaggle/input/learn-ai-bbc/BBC News Test.csv"
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 In order to run this notebook locally uncomment the following cell, dowload the <a href="https://www.kaggle.com/competitions/learn-ai-bbc/data">data</a> from kaggle and save it in a folder named Data beside Notebooks.
 
 
 ```python
-train_loc = "../Data/BBC News Train.csv"
-test_loc = "../Data/BBC News Test.csv"
+# train_loc = "../Data/BBC News Train.csv"
+# test_loc = "../Data/BBC News Test.csv"
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
 ```python
-# train = pd.read_csv(train_loc)
-# test = pd.read_csv(test_loc)
+train = pd.read_csv(train_loc)
+test = pd.read_csv(test_loc)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Constants
@@ -99,7 +99,7 @@ np.random.seed(42)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -120,7 +120,7 @@ N_NEIGH_LIST = list(range(2, 20)) + [
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 ### Exploratory Data Analysis and preprocessing
@@ -194,7 +194,7 @@ train.head()
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 As we can see in the following plot the category labels are balanced.
@@ -218,7 +218,7 @@ sns.histplot(train["Category"])
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Text is a challenging data source for machine learning algorithms because of its complexity and lack of structure. The problem of converting text articles into numerical vectors so that classification models can be applied is very challenging and needs to be done in a way such that:
@@ -242,7 +242,7 @@ test["Text"] = test["Text"].apply(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Tockenization
@@ -254,7 +254,7 @@ test["Text"] = test["Text"].apply(lambda x: x.split(" "))
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Delete stopwords
@@ -265,7 +265,7 @@ Delete stopwords
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -274,7 +274,7 @@ stopwords = nltk.corpus.stopwords.words("english")
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -283,7 +283,7 @@ stopwords = ["".join([s for s in w if s not in string.punctuation]) for w in sto
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -293,7 +293,7 @@ test["Text"] = test["Text"].apply(lambda t: [w for w in t if w not in stopwords]
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Lenght of text attribute
@@ -304,7 +304,7 @@ train["length"] = train["Text"].apply(len)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -313,7 +313,7 @@ test["length"] = test["Text"].apply(len)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -330,7 +330,7 @@ fig.set_size_inches(8, 5)
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -339,7 +339,7 @@ classes = train["Category"].unique()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Train and test split
@@ -352,7 +352,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The final step to prepare the articles for the machine learning algorithms is to use the TfIdf vectorization. This technique produces a vector $v=\lambda(v_1,v_2,\dots ,v_n)$ for each article where each entry attempts to represent the importance of a specific term in the text and is calculated according to the next formula (there are other similar definitions with subtle differences):
@@ -367,7 +367,7 @@ vectorizer = TfidfVectorizer()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -378,7 +378,7 @@ x_train_vectorized = np.array(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -390,7 +390,7 @@ x_test_vectorized = np.array(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -402,7 +402,7 @@ x_test_kaggle = np.array(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Now that we have a vectorized representation of the articles let's use matrix factorization for dimensionality reduction in order to visualize the different texts and their respective labels
@@ -413,7 +413,7 @@ sklearn_svd = TruncatedSVD(n_components=2)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -422,7 +422,7 @@ x_train_2d = sklearn_svd.fit_transform(x_train_vectorized)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -449,7 +449,7 @@ ax.scatter(
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The plot above shows a 2D representation of the articles and their labels, and exposes that there are considerable differences between the different classes.
@@ -464,7 +464,7 @@ knn = KNeighborsClassifier()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -473,7 +473,7 @@ knn_gridcv = GridSearchCV(knn, param_grid={"n_neighbors": N_NEIGH_LIST},)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Cross validation
@@ -494,7 +494,7 @@ knn_gridcv.fit(x_train_vectorized, y_train)
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -511,7 +511,7 @@ knn_gridcv.best_estimator_
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -527,7 +527,7 @@ knn_gridcv.best_score_
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Test metrics
@@ -538,7 +538,7 @@ y_test_pred = knn.predict(x_test_vectorized)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -547,7 +547,7 @@ y_test_pred_proba = knn.predict_proba(x_test_vectorized)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -563,7 +563,7 @@ accuracy_score(y_test, y_test_pred)
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The train and test accuracy, and the following ROC plots, reveal that the KNN model has strong predictive power and extrapolates well to unseen data.
@@ -587,7 +587,7 @@ fig.set_size_inches(8, 6)
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 ### Non negative matrix factorization
@@ -600,7 +600,7 @@ sklearn_svd = TruncatedSVD(n_components=5)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -609,7 +609,7 @@ pred_train_svd = np.argmax(sklearn_svd.fit_transform(x_train_vectorized), axis=1
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -618,7 +618,7 @@ pred_test_svd = np.argmax(sklearn_svd.transform(x_test_vectorized), axis=1)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Finds best permutation for labels
@@ -638,7 +638,7 @@ def perm_acc_nmf(classes, pred_train_svd, y_train):
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -647,7 +647,7 @@ perm_final, acc_final = perm_acc_nmf(classes, pred_train_svd, y_train)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -663,7 +663,7 @@ perm_final
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Final metrics over train and test set
@@ -681,7 +681,7 @@ acc_final
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -698,7 +698,7 @@ accuracy_score(y_test.values, pred_test_svd_label)
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The resulting accuracies show that the model has some predictive power, as random choice would result in 20% accuracy, but is far worse than the baseline model previously fitted. Matrix factorization can also be used as a preprocessing step for dimentionality reduction. This might be very valuable as TfIdf vectorization produces vectors with the same length as the vocaculary.
@@ -726,7 +726,7 @@ table_comp_svd_knn = pd.DataFrame(columns=table_cols)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -817,7 +817,7 @@ for i in range(n_sims):
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -826,7 +826,7 @@ table_comp_svd_knn.set_index("Sample", inplace=True)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -841,7 +841,7 @@ def line_plots(df, cols_to_plot, title="", x_label="Sample"):
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The resulting model parameters from the cross validation of the composed model K and the number of dimensions, stay relatively stable around 10 while the size of the training set increases.
@@ -859,7 +859,7 @@ model_desc = line_plots(table_comp_svd_knn, cols_to_plot, "Model parameters")
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The following plot shows that the test set accuracy of the composed model is similar to the accuracy of the KNN model after the training set grows to a critical size of around 30% of the dataset.
@@ -877,7 +877,7 @@ test_acc_fig = line_plots(table_comp_svd_knn, cols_to_plot, "Test accuracy")
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 While the accuracy of the composed model is similar to the accuracy of the KNN, the reduction in computational time is very large and grows larger as the dataset increases in size. The following two plots show one of the advantages of dimensionality reduction techniques.
@@ -895,7 +895,7 @@ training_time_fig = line_plots(table_comp_svd_knn, cols_to_plot, "Training time"
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -911,7 +911,7 @@ training_time_fig = line_plots(table_comp_svd_knn, cols_to_plot, "Predicting tim
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Best model
@@ -922,7 +922,7 @@ k, dim = tuple(table_comp_svd_knn.iloc[-1, -2:])
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -939,7 +939,7 @@ svd_knn_test_score = accuracy_score(y_test, y_test_pred)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -955,7 +955,7 @@ sklearn_svd
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -971,7 +971,7 @@ knn
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -987,7 +987,7 @@ svd_knn_test_score
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -996,7 +996,7 @@ y_test_pred_proba = knn.predict_proba(test_svd_knn)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The process outputs a model that achieves similar accuracy than the baseline model and is also considerably simpler and more efficient regarding computation and memory because of the dimensionality reduction.
@@ -1024,7 +1024,7 @@ print(
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1046,7 +1046,7 @@ fig.set_size_inches(8, 6)
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1055,7 +1055,7 @@ submission = test[["ArticleId"]].copy()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1064,7 +1064,7 @@ submission["Category"] = knn.predict(test_svd_knn_kaggle)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1073,7 +1073,7 @@ submission.to_csv("submission.csv", index=False)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 ### Conclusions
