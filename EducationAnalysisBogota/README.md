@@ -18,7 +18,7 @@ from sklearn.cluster import DBSCAN
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -27,7 +27,7 @@ from sklearn.cluster import DBSCAN
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 ## EDA and preprocessing
@@ -38,7 +38,7 @@ school_data = pd.read_csv('../data/LISTADO_COLEGIOS_BOGOTA.csv')
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -59,7 +59,7 @@ for c in school_data.columns:
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -240,7 +240,7 @@ school_data.head()
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -279,7 +279,7 @@ school_data.iloc[0]
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 We are not interested in information about the name, telephone number, ethnic status, schedulle type, especiality, and other attributes of the schools, so this columns are als dropped.
@@ -293,7 +293,7 @@ school_data.drop(['telefono', 'especialidad', 'grados', 'modelos_Educativos','et
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -383,7 +383,7 @@ school_data.head()
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Now that we have filtered all the attributes of interest let's explore each column and translate its meaning to english.
@@ -401,7 +401,7 @@ school_data['zona'].unique()
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The attribute zona classifies the location of the school between urban and rural. For this particular analysis we are only interested in the urban area of Bogotá, so let's retain only those institutions.
@@ -412,7 +412,7 @@ school_data = school_data[school_data['zona'] == 'URBANA'].drop('zona', axis=1)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The niveles feature presents the educatinal levels available at the different schoools. The next code cell presents the translation of the different levels and process the column into one binary attribute for each level.
@@ -435,7 +435,7 @@ set(np.concatenate(school_data['niveles'].values))
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -453,7 +453,7 @@ school_data.drop('niveles',axis=1,inplace=True)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The idiomas attribute has information about the languages different from spanish taught in the educational institutes. From this attribute let's create another one that encode if the school is bilingual or not.
@@ -465,7 +465,7 @@ school_data.drop('idiomas', axis=1, inplace=True)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Finally from the prestador_de_Servicio attribute we are going to extract if the school is public or private and save it on a feature named public.
@@ -477,7 +477,7 @@ school_data.drop('prestador_de_Servicio', axis=1, inplace=True)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Now that we processed attributes of interest let's explore the resulting data frame.
@@ -506,7 +506,7 @@ school_data.drop('direccion',axis=1).mean()
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 The most common schools are preschools and primary schools, while the number of institutions that serve as childcare for babies is relatively small.
@@ -524,7 +524,7 @@ np.corrcoef(school_data['bilingual'],school_data['public'])[0,1]
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 There is a negative correlation between the instruction of a second language and the attribute that tells if the school is public. In other words, public schools are less likely to be bilingual.
@@ -539,7 +539,7 @@ vc_address = school_data['direccion'].value_counts()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 As the following table shows, there are 49 schools that share their address with another one. After some exploration it was found that some of these addresses were wrong. Because the number of schools for which the incorrect address is small, a manual correction was done for these 49 shools.
@@ -634,7 +634,7 @@ school_data[school_data['direccion'].isin(vc_address[vc_address>1].index)].sort_
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -645,7 +645,7 @@ school_data[school_data['direccion'].isin(vc_address[vc_address>1].index)].sort_
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -654,7 +654,7 @@ repeated_address_depuration = pd.read_csv('../data/repeated_addresses_corrected.
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -669,7 +669,7 @@ school_data = pd.merge(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -678,7 +678,7 @@ school_data = school_data[school_data['delete']!=1].drop('delete',axis=1).copy()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -690,7 +690,7 @@ school_data['direccion'] = school_data.apply(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -700,7 +700,7 @@ with open('../keys.json','r') as f:
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -709,7 +709,7 @@ gmaps_client = googlemaps.Client(key=maps_key)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -726,7 +726,7 @@ for address in school_data['direccion']:
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Let's retry the geocoding for the addresses that failed
@@ -742,7 +742,7 @@ for address in school_data['direccion']:
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Now we can convert the addresses into latitude and longitude values
@@ -754,7 +754,7 @@ school_data['lon'] = school_data['direccion'].apply(lambda x: address_dic[x]['ln
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -763,7 +763,7 @@ school_data.drop(['direccion','corrected_address'],axis=1,inplace=True)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 Now that we have a processed dataset with categories and coordinate locations for each school, let's plot a map of the different institutions.
@@ -775,7 +775,7 @@ school_data = pd.read_csv("../data/school_data_processed.csv", index_col=0)
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -785,7 +785,7 @@ with open("../keys.json", "r") as f:
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -797,7 +797,7 @@ school_data_gpd = gpd.GeoDataFrame(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -978,7 +978,7 @@ school_data_gpd
 
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1016,7 +1016,7 @@ db_pred = DBSCAN(eps=1 / (111.1 * 2), min_samples=4).fit_predict(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1025,7 +1025,7 @@ school_data_gpd["cluster_all"] = db_pred
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1054,7 +1054,7 @@ def plot_dbscan(col, school_data_gpd=school_data_gpd):
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1074,7 +1074,7 @@ school_data_gpd["cluster_all_2"] = DBSCAN(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1094,7 +1094,7 @@ school_data_analysis = school_data[school_data["public"]].copy()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1105,7 +1105,7 @@ school_data_gpd_analysis["cluster"] = DBSCAN(eps=1 / (111.1), min_samples=4).fit
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1125,7 +1125,7 @@ school_data_analysis = school_data[school_data["bilingual"]].copy()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1136,7 +1136,7 @@ school_data_gpd_analysis["cluster"] = DBSCAN(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1156,7 +1156,7 @@ school_data_analysis = school_data[school_data["Preschool"]].copy()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1167,7 +1167,7 @@ school_data_gpd_analysis["cluster"] = DBSCAN(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1186,7 +1186,7 @@ school_data_analysis = school_data[school_data["Secondary"]].copy()
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
@@ -1197,7 +1197,7 @@ school_data_gpd_analysis["cluster"] = DBSCAN(
 ```
 
 
-    <IPython.core.display.Javascript object>
+
 
 
 
