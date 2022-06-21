@@ -1,6 +1,6 @@
 # School coverage analysis for Bogotá
 
-The purpose of this project is to do an exploration of the school coverage in Bogotá using official information from the education ministry. The used dataset can be found in the open data page of the colombian government in the following <a href="https://www.datos.gov.co/Educaci-n/LISTADO-COLEGIOS-BOGOTA/qijw-htwa">link</a>. The dataset is a little outdated, as it has information from 2016, but the analysis should mostly hold as education coverage does not change rapidly. <br>Maps are not displayed in this readme as plotly interactive maps cannot be embedded in markdown documents. In order to see the full analysis please download the notebook and run the cells after school_data is imported.
+The purpose of this project is to do an exploration of the school coverage in Bogotá using official information from the education ministry. The used dataset can be found in the open data page of the colombian government in the following <a href="https://www.datos.gov.co/Educaci-n/LISTADO-COLEGIOS-BOGOTA/qijw-htwa">link</a>. The dataset is a little outdated, as it has information from 2016, but the analysis should mostly hold as education coverage does not change rapidly.
 
 ## Imports
 
@@ -16,10 +16,6 @@ import json
 import plotly.express as px
 from sklearn.cluster import DBSCAN
 ```
-
-
-
-
 
 
 ```python
@@ -998,7 +994,13 @@ fig.update_layout(
     mapbox_accesstoken=mapbox_key,
 )
 fig.show()
+fig.write_image("../maps/map1.png")
 ```
+
+
+
+
+![image](../maps/map1.png)
 
 From the map above it can be observed a greater concentration of public schools in the south of the city which correlates with the poorest zones of Bogotá.
 
@@ -1030,7 +1032,7 @@ school_data_gpd["cluster_all"] = db_pred
 
 
 ```python
-def plot_dbscan(col, school_data_gpd=school_data_gpd):
+def plot_dbscan(col, school_data_gpd=school_data_gpd, save_img="../maps/map.png"):
     school_data_gpd["member"] = (school_data_gpd[col] >= 0).apply(
         lambda x: 1 if x else 0.3
     )
@@ -1051,6 +1053,7 @@ def plot_dbscan(col, school_data_gpd=school_data_gpd):
         mapbox_accesstoken=mapbox_key,
     )
     fig.show()
+    fig.write_image(save_img)
 ```
 
 
@@ -1059,10 +1062,13 @@ def plot_dbscan(col, school_data_gpd=school_data_gpd):
 
 
 ```python
-plot_dbscan('cluster_all')
+plot_dbscan("cluster_all", school_data_gpd, "../maps/map2.png")
 ```
 
 
+
+
+![image](../maps/map2.png)
 
 The first map shows that there is a low concentration of schools as expected in natural resources like the suba wetlands and hill, and in the undeveloped parts of Usme. The map also shows that there is also low school coverage in Usaquen and in the industrial zone around Cra 13. Let strengthen the coverage requirements by asking for at least 8 schools in a 500 m radius.
 
@@ -1079,9 +1085,13 @@ school_data_gpd["cluster_all_2"] = DBSCAN(
 
 
 ```python
-plot_dbscan("cluster_all_2")
+plot_dbscan("cluster_all_2", save_img="../maps/map3.png")
 ```
 
+
+
+
+![image](../maps/map3.png)
 
 By increasing the density requirements new problematic areas arise like Kennedy in the south west of the city and the east of Suba. Now let's complement the analysis by considering some subsets of the schools.
 
@@ -1099,9 +1109,9 @@ school_data_analysis = school_data[school_data["public"]].copy()
 
 
 ```python
-school_data_gpd_analysis["cluster"] = DBSCAN(eps=1 / (111.1), min_samples=4).fit_predict(
-    school_data_analysis[["lat", "lon"]]
-)
+school_data_gpd_analysis["cluster"] = DBSCAN(
+    eps=1 / (111.1), min_samples=4
+).fit_predict(school_data_analysis[["lat", "lon"]])
 ```
 
 
@@ -1110,9 +1120,12 @@ school_data_gpd_analysis["cluster"] = DBSCAN(eps=1 / (111.1), min_samples=4).fit
 
 
 ```python
-plot_dbscan("cluster", school_data_gpd_analysis)
+plot_dbscan("cluster", school_data_gpd_analysis, save_img="../maps/map4.png")
 ```
 
+
+
+![image](../maps/map4.png)
 
 When considering only public schools we can see that there is a lack of coverage in the north and west of the city. The low density in the north of the city can be explained by the greater income of citizens in such zone and the preference for private schools, but the lack of public institutions around Cra 26  and Cra 13 is problematic and should be explored further.
 
@@ -1141,9 +1154,11 @@ school_data_gpd_analysis["cluster"] = DBSCAN(
 
 
 ```python
-plot_dbscan("cluster", school_data_gpd_analysis)
+plot_dbscan("cluster", school_data_gpd_analysis, save_img="../maps/map5.png")
 ```
 
+
+![image](../maps/map5.png)
 
 The density of bilingual schools is similar to the density of all schools as shown in the map above with an important difference in Usme where there is low concentration of these type of schools.
 
@@ -1172,8 +1187,11 @@ school_data_gpd_analysis["cluster"] = DBSCAN(
 
 
 ```python
-plot_dbscan("cluster", school_data_gpd_analysis)
+plot_dbscan("cluster", school_data_gpd_analysis, save_img="../maps/map6.png")
 ```
+
+
+![image](../maps/map6.png)
 
 The dbscan result for preschools is similar to the result for all schools, but shos an important difference in Chapinero and Usaquen where the density is very low in relation to the rest of the city.
 
@@ -1202,9 +1220,12 @@ school_data_gpd_analysis["cluster"] = DBSCAN(
 
 
 ```python
-plot_dbscan("cluster", school_data_gpd_analysis)
+plot_dbscan("cluster", school_data_gpd_analysis, save_img="../maps/map7.png")
 ```
 
+
+
+![image](../maps/map7.png)
 
 There are much less secondary schools in Bogotá than preschools. The deficit of this type of schools is bigger in the industrial zone and the north of the city.
 
