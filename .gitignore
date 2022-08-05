@@ -130,5 +130,12 @@ dmypy.json
 
 # Data
 KaggleBBC_RS/Data/*
+GenderDetection/Data/*
 KaggleBBC_RS/Notebooks/submission.csv
-.DS_store
+LISTADO_COLEGIOS_BOGOTA.csv
+repeated_addresses_corrected.csv
+repeated_addresses.csv
+
+#keys
+keys.json
+.DS_Store
