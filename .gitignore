@@ -138,3 +138,4 @@ repeated_addresses.csv
 
 #keys
 keys.json
+.DS_Store
